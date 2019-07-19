@@ -16,6 +16,12 @@ const UseCaseOrganizerView = ({cases,classes}) => (
                 )
             })
         }
+        <style jsx>{`
+            .o_use-case-organizer {
+                overflow-x: hidden;
+                overflow-y: scroll;
+            } 
+        `}</style>
     </div>
 )
 

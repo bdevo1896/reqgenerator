@@ -20,6 +20,14 @@ function UseCaseView (props) {
         <div className={`o_use-case-view ${classes}`} ref={ref}>
             <input name="title" onChange={(event)=>updateTitle(id,event.target.value)}/>
             <textarea name="description"  onChange={(event)=>updateDescription(id,event.target.value)}/>
+            <style jsx>{`
+                .o_use-case-view {
+                    display: grid;
+                    justify-items: center;
+                    align-items: center;
+                    grid-gap: 15px;
+                }
+            `}</style>
         </div>
     )
 }
