@@ -1,12 +1,12 @@
 import {connect} from 'react-redux';
 import {useState} from 'react';
 
-const mapDispatch = ({useCases: updateUseCaseTitle,updateUseCaseDescription,updateUseCaseRequirements,updateUseCaseInputs,updateUseCaseOutputs}) => ({
-    updateTitle: (id,title) => updateUseCaseTitle({payload: {id: id, title: title}}),
-    updateDescription: (id,description) => updateUseCaseDescription({payload: {id: id, description: description}}),
-    updateRequirements: (id,requirements) => updateUseCaseRequirements({payload: {id: id, requirements: requirements}}),
-    updateInputs: (id,inputs) => updateUseCaseInputs({payload: {id: id, inputs: inputs}}),
-    updateOutputs: (id,outputs) => updateUseCaseOutputs({payload: {id: id, outputs: outputs}})
+const mapDispatch = ({useCases: {updateUseCaseTitle,updateUseCaseDescription,updateUseCaseRequirements,updateUseCaseInputs,updateUseCaseOutputs}}) => ({
+    updateTitle: (id,title) => updateUseCaseTitle({id: id, title: title}),
+    updateDescription: (id,description) => updateUseCaseDescription({id: id, description: description}),
+    updateRequirements: (id,requirements) => updateUseCaseRequirements({id: id, requirements: requirements}),
+    updateInputs: (id,inputs) => updateUseCaseInputs({id: id, inputs: inputs}),
+    updateOutputs: (id,outputs) => updateUseCaseOutputs({id: id, outputs: outputs})
 })
 
 function UseCaseView (props) {
@@ -18,8 +18,8 @@ function UseCaseView (props) {
 
     return (
         <div className={`o_use-case-view ${classes}`} ref={ref}>
-            <input name="title" value={title} onChange={(event)=>updateTitle(id,event.target.value)}/>
-            <textarea name="description" value={description} onChange={(event)=>updateDescription(id,event.target.value)}/>
+            <input name="title" onChange={(event)=>updateTitle(id,event.target.value)}/>
+            <textarea name="description"  onChange={(event)=>updateDescription(id,event.target.value)}/>
         </div>
     )
 }

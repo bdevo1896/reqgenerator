@@ -7,9 +7,10 @@ export const useCases = {
     reducers: {
         createUseCase(state,payload) {
             const {cases} = state;
-            const {title,description} = payload;
+            const {title,description,ref} = payload;
 
             const newCase = new UseCase(title,description,[],[],[]);
+            newCase.ref = ref;
 
             let newCases = {...cases};
             newCases[newCase.id] = newCase;

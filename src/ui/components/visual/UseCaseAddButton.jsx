@@ -1,7 +1,8 @@
 import {connect} from 'react-redux';
+import {createRef} from 'react';
 
-const mapDispatch = ({useCase: createUseCase}) => ({
-    createUseCase: () => createUseCase({payload: {title: "New Use Case", description: "This is the new description"}})
+const mapDispatch = ({useCases: {createUseCase}}) => ({
+    createUseCase: () => createUseCase({title: "New Use Case", description: "This is the new description",ref: createRef()})
 })
 
 const UseCaseAddButton = ({classes,createUseCase}) => (

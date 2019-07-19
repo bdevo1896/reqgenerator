@@ -1,6 +1,6 @@
-const UseCaseNavLink = ({text,ref}) => (
+const UseCaseNavLink = ({text,useCaseRef}) => (
     <li>
-        <a className="o_use-case-link" onClick={() =>  ref.current.scrollIntoView({behavior: 'smooth'})}>{text}</a>
+        <a className="o_use-case-link" onClick={() =>  useCaseRef.current.scrollIntoView({behavior: 'smooth'})}>{text}</a>
     </li>
 )
 

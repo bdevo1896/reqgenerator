@@ -13,7 +13,7 @@ const  SideNavigation = ({cases}) => (
                             <UseCaseNavLink 
                                 key={usecase.id}
                                 text={usecase.title}
-                                ref={usecase.ref}
+                                useCaseRef={usecase.ref}
                             />
                         )
                     })
