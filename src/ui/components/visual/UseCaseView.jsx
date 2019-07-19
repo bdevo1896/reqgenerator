@@ -1,5 +1,6 @@
 import {connect} from 'react-redux';
 import {useState} from 'react';
+import UseCaseDisplayView from './UseCaseDisplayView';
 
 const mapDispatch = ({useCases: {updateUseCaseTitle,updateUseCaseDescription,updateUseCaseRequirements,updateUseCaseInputs,updateUseCaseOutputs}}) => ({
     updateTitle: (id,title) => updateUseCaseTitle({id: id, title: title}),
@@ -9,68 +10,19 @@ const mapDispatch = ({useCases: {updateUseCaseTitle,updateUseCaseDescription,upd
     updateOutputs: (id,outputs) => updateUseCaseOutputs({id: id, outputs: outputs})
 })
 
-const ParameterView = ({name,type,classes}) => (
-    <li className={classes}>
-        <p>{name} :<span>{type}</span></p>
-    </li>
-)
-
-const UseCaseDisplayView = ({useCase,classes}) => (
-    <div className={`display-view ${classes}`}>
-        <h3>{useCase.title}</h3>
-        <small>Description</small>
-        <p>{useCase.description}</p>
-        <small>Requirements</small>
-        <ol>
-            {
-                useCase.requirements.map((requirement) => {
-                    return (
-                        <li>{requirement}</li>
-                    )
-                })
-            }
-        </ol>
-        <div className="ins-outs">
-            <div>
-                <small>In</small>
-                <ul>
-                    {
-                        useCase.inputs.map((input) => {
-                            return (
-                                <ParameterView 
-                                    name={input.name}
-                                    type={input.type}
-                                />
-                            )
-                        })
-                    }
-                </ul>
-            </div>
-            <div>
-                <small>Out</small>
-                <ul>
-                    {
-                        useCase.outputs.map((output) => {
-                            return (
-                                <ParameterView 
-                                    name={output.name}
-                                    type={output.type}
-                                />
-                            )
-                        })
-                    }
-                </ul>
-            </div>
-        </div>
-    </div>
-)
+const MODES = {
+    edit: 'edit',
+    view: 'view'
+}
 
 function UseCaseView (props) {
 
     const {updateTitle,updateDescription,updateRequirements,updateInputs,updateOutputs,classes} = props;
     const {id,title,description,requirements,inputs,outputs,ref} = props.useCase;
 
-    const [newRequirements,setRequirements] = useState(requirements);
+    const [mode,setMode] = useState(MODES.view);
+
+
 
     return (
         <div className={`o_use-case-view ${classes}`} ref={ref}>
