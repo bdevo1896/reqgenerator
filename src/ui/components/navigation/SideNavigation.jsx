@@ -6,7 +6,7 @@ const mapState = state => ({cases: state.useCases.cases});
 const  SideNavigation = ({cases,classes}) => (
         <nav className={`o_side-navigation ${classes}`}>
             <h2>Use Cases</h2>
-            <ul>
+            <ul className="m-xs-all">
                 {
                     Object.values(cases).map((usecase)=> {
                         return (

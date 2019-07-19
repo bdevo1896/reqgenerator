@@ -5,7 +5,9 @@ import UseCaseAddButton from '../src/ui/components/visual/UseCaseAddButton';
 
 const Home  = () => (
     <Fragment>
-        <SideNavigation />
+        <SideNavigation 
+            classes="p-s-all"
+        />
         <UseCaseOrganizerView />
         <UseCaseAddButton />
     </Fragment>

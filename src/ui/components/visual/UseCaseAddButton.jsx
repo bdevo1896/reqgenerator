@@ -7,7 +7,7 @@ const mapDispatch = ({useCases: {createUseCase}}) => ({
 
 const UseCaseAddButton = ({classes,createUseCase}) => (
     <div className={`o_use-case-add-button ${classes}`}>
-        <button onClick={()=>createUseCase()}>+</button>
+        <button onClick={()=>createUseCase()}>Add New Use Case</button>
     </div>
 )
 

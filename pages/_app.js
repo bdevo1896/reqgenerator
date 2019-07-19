@@ -4,6 +4,7 @@ import OfflineSupport from '../src/ui/components/util/OfflineSupport';
 import Layout from '../src/ui/containers/Layout';
 import {Provider} from 'react-redux';
 import store from '../src/redux/store';
+import '../src/styles/css/styles.css';
 
 class MyApp extends App {
 

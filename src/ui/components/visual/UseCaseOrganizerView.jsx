@@ -10,7 +10,7 @@ const UseCaseOrganizerView = ({cases,classes}) => (
                 return (
                 <UseCaseView 
                     useCase={useCase}
-                    classes="m-xs-all"
+                    classes="m-s-all dp8 p-m-all"
                     key={useCase.id}
                 />
                 )
