@@ -23,6 +23,13 @@ const  SideNavigation = ({cases,classes}) => (
                 .o_side-navigation {
                     border-right: solid 2px #EEEE;
                 }
+
+                ul {
+                    list-style: none;
+                    display: grid;
+                    justify-items: flex-start;
+                    grid-gap: 15px;
+                }
             `}</style>
         </nav>
     )
