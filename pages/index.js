@@ -1,11 +1,14 @@
 import SideNavigation from '../src/ui/components/navigation/SideNavigation';
-import LightAddButton from '../src/ui/components/visual/LightAddButton';
+import {Fragment} from 'react';
+import UseCaseOrganizerView from '../src/ui/components/visual/UseCaseOrganizerView';
+import UseCaseAddButton from '../src/ui/components/visual/UseCaseAddButton';
 
 const Home  = () => (
-    <div>
-        <h1>Home</h1>
+    <Fragment>
         <SideNavigation />
-    </div>
+        <UseCaseOrganizerView />
+        <UseCaseAddButton />
+    </Fragment>
 )
 
 export default Home;
