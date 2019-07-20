@@ -1,5 +1,12 @@
 import Block from './Block';
 
+export const PARAMETER_TYPES = {
+    string: "String",
+    number: "Number",
+    bool: "Boolean",
+    array: "Array",
+}
+
 export default class UseCase extends Block {
     constructor(title,description,requirements,inputs,outputs) {
         super(title,'UC','usecase');

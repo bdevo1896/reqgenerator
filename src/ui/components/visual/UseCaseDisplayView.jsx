@@ -4,8 +4,9 @@ const ParameterView = ({name,type,classes}) => (
     </li>
 )
 
-const UseCaseDisplayView = ({useCase,classes}) => (
-    <div className={`display-view ${classes}`}>
+const UseCaseDisplayView = ({useCase,onEdit}) => (
+    <div className={`display-view`}>
+        <button onClick={onEdit}>Edit</button>
         <h3>{useCase.title}</h3>
         <small>Description</small>
         <p>{useCase.description}</p>

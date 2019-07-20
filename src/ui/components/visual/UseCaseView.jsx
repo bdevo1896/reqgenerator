@@ -1,33 +1,33 @@
-import {connect} from 'react-redux';
 import {useState} from 'react';
 import UseCaseDisplayView from './UseCaseDisplayView';
-
-const mapDispatch = ({useCases: {updateUseCaseTitle,updateUseCaseDescription,updateUseCaseRequirements,updateUseCaseInputs,updateUseCaseOutputs}}) => ({
-    updateTitle: (id,title) => updateUseCaseTitle({id: id, title: title}),
-    updateDescription: (id,description) => updateUseCaseDescription({id: id, description: description}),
-    updateRequirements: (id,requirements) => updateUseCaseRequirements({id: id, requirements: requirements}),
-    updateInputs: (id,inputs) => updateUseCaseInputs({id: id, inputs: inputs}),
-    updateOutputs: (id,outputs) => updateUseCaseOutputs({id: id, outputs: outputs})
-})
+import UseCaseEditView from './UseCaseEditView';
 
 const MODES = {
     edit: 'edit',
     view: 'view'
 }
 
-function UseCaseView (props) {
+export default function UseCaseView (props) {
 
-    const {updateTitle,updateDescription,updateRequirements,updateInputs,updateOutputs,classes} = props;
-    const {id,title,description,requirements,inputs,outputs,ref} = props.useCase;
+    const {classes,useCase} = props;
+    const {ref} = useCase;
 
     const [mode,setMode] = useState(MODES.view);
 
-
-
     return (
         <div className={`o_use-case-view ${classes}`} ref={ref}>
-            <input name="title" onChange={(event)=>updateTitle(id,event.target.value)}/>
-            <textarea name="description"  onChange={(event)=>updateDescription(id,event.target.value)}/>
+            {mode == MODES.view &&
+                <UseCaseDisplayView 
+                    useCase={useCase}
+                    onEdit = {() => setMode(MODES.edit)}
+                />
+            }
+            {mode == MODES.edit &&
+                <UseCaseEditView 
+                    useCase = {useCase}
+                    onSave = {() => {setMode(MODES.view);console.log('Go to view')}}
+                />
+            }
             <style jsx>{`
                 .o_use-case-view {
                     display: grid;
@@ -39,5 +39,3 @@ function UseCaseView (props) {
         </div>
     )
 }
-
-export default connect(null,mapDispatch)(UseCaseView);
