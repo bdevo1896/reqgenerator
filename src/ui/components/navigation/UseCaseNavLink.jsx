@@ -1,6 +1,6 @@
-const UseCaseNavLink = ({text,useCaseRef}) => (
+const UseCaseNavLink = ({text,useCaseRef,caseNum}) => (
     <li>
-        <a className="o_use-case-link" onClick={() =>  useCaseRef.current.scrollIntoView({behavior: 'smooth'})}>{text}</a>
+        <a className="o_use-case-link" onClick={() =>  useCaseRef.current.scrollIntoView({behavior: 'smooth'})}>UC{caseNum < 10 ? `0${caseNum}`:`${caseNum}`}: {text}</a>
         <style jsx>{`
             a {
                 color: darkblue;

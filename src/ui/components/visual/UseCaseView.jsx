@@ -26,7 +26,7 @@ export default function UseCaseView (props) {
             {mode == MODES.edit &&
                 <UseCaseEditView 
                     useCase = {useCase}
-                    onSave = {() => {setMode(MODES.view);console.log('Go to view')}}
+                    onSave = {() => setMode(MODES.view)}
                 />
             }
             <style jsx>{`

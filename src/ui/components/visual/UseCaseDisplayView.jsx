@@ -15,7 +15,7 @@ const UseCaseDisplayView = ({useCase,onEdit,caseNum}) => (
             {
                 useCase.requirements.map((requirement) => {
                     return (
-                        <li>{requirement}</li>
+                        <li>{requirement.text}</li>
                     )
                 })
             }

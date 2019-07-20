@@ -3,17 +3,23 @@ import UseCaseNavLink from './UseCaseNavLink';
 
 const mapState = state => ({cases: state.useCases.cases});
 
-const  SideNavigation = ({cases,classes}) => (
+function SideNavigation ({cases,classes}) {
+
+    let index = 0;
+
+    return (
         <nav className={`o_side-navigation ${classes}`}>
             <h2>Use Cases</h2>
             <ul className="m-xs-all">
                 {
                     Object.values(cases).map((usecase)=> {
+                        index++;
                         return (
                             <UseCaseNavLink 
                                 key={usecase.id}
                                 text={usecase.title}
                                 useCaseRef={usecase.ref}
+                                caseNum={index}
                             />
                         )
                     })
@@ -33,5 +39,6 @@ const  SideNavigation = ({cases,classes}) => (
             `}</style>
         </nav>
     )
+}
 
 export default connect(mapState)(SideNavigation);

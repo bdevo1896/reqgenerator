@@ -5,16 +5,17 @@ const mapState = state => ({cases: state.useCases.cases});
 
 function UseCaseOrganizerView({cases,classes}){
 
-    let index = 1;
+    let index = 0;
 
     return (
     <div className={`o_use-case-organizer ${classes}`}>
         {
             Object.values(cases).map((useCase) => {
+                index++;
                 return (
                 <UseCaseView 
                     useCase={useCase}
-                    classes="m-s-all dp8 p-m-all"
+                    classes="m-l-all dp8 p-m-all"
                     key={useCase.id}
                     caseNum={index}
                 />
