@@ -4,10 +4,10 @@ const ParameterView = ({name,type,classes}) => (
     </li>
 )
 
-const UseCaseDisplayView = ({useCase,onEdit}) => (
+const UseCaseDisplayView = ({useCase,onEdit,caseNum}) => (
     <div className={`display-view`}>
-        <button onClick={onEdit}>Edit</button>
-        <h3>{useCase.title}</h3>
+        <button className="m-xs-all" onClick={onEdit}>Edit</button>
+        <h3>UC{caseNum < 10 ? `0${caseNum}`:`${caseNum}`}: {useCase.title}</h3>
         <small>Description</small>
         <p>{useCase.description}</p>
         <small>Requirements</small>
@@ -52,6 +52,20 @@ const UseCaseDisplayView = ({useCase,onEdit}) => (
                 </ul>
             </div>
         </div>
+        <style jsx>{`
+            .display-view {
+                display: flex;
+                flex-flow: column nowrap;
+                width: 100%;
+            }
+
+            button {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+            }
+
+        `}</style>
     </div>
 )
 

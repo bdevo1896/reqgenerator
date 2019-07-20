@@ -3,7 +3,11 @@ import {connect} from 'react-redux';
 
 const mapState = state => ({cases: state.useCases.cases});
 
-const UseCaseOrganizerView = ({cases,classes}) => (
+function UseCaseOrganizerView({cases,classes}){
+
+    let index = 1;
+
+    return (
     <div className={`o_use-case-organizer ${classes}`}>
         {
             Object.values(cases).map((useCase) => {
@@ -12,6 +16,7 @@ const UseCaseOrganizerView = ({cases,classes}) => (
                     useCase={useCase}
                     classes="m-s-all dp8 p-m-all"
                     key={useCase.id}
+                    caseNum={index}
                 />
                 )
             })
@@ -23,6 +28,7 @@ const UseCaseOrganizerView = ({cases,classes}) => (
             } 
         `}</style>
     </div>
-)
+    )
+}
 
 export default connect(mapState)(UseCaseOrganizerView);

@@ -127,7 +127,7 @@ class UseCaseEditView extends PureComponent {
         const {title,description,requirements,inputs,outputs} = this.state;
         return (
             <div className="edit-view">
-                <button onClick={() => this.handleSave()}>Save</button>
+                <button className="m-xs-all" onClick={() => this.handleSave()}>Save</button>
                 <label><h4>Title</h4> <input type="text" name="title" onChange={(event)=> this.setState({title: event.target.value})} value={title}/></label>
                 <label><h4>Description</h4> <textarea name="description"  onChange={(event)=> this.setState({description: event.target.value})} value={description}/></label>
                 <h4>Requirements</h4>
@@ -182,6 +182,12 @@ class UseCaseEditView extends PureComponent {
                         align-items: center;
                         grid-gap: 20px;
                         width: 100%;
+                    }
+
+                    button {
+                        position: absolute;
+                        right: 10px;
+                        top: 10px;
                     }
                 `}</style>
             </div>
