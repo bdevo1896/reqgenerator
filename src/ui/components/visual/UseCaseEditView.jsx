@@ -10,10 +10,6 @@ const mapDispatch = ({useCases: {updateUseCaseTitle,updateUseCaseDescription,upd
     updateOutputs: (id,outputs) => updateUseCaseOutputs({id: id, outputs: outputs})
 })
 
-function makeId() {
-    return 'P'+Math.floor(Math.random() * 30000);
-}
-
 function ParameterView ({parameter,onClick,onUpdate,isInput}) {
     const [name,setName] = useState(parameter.name);
     const [type,setType] = useState(parameter.type);
