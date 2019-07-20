@@ -55,7 +55,7 @@ img {
     justify-items: center;
 }
 
-button {
+.main-button {
     color: white;
     background-color: #6442ff;
     border-radius: 5px;
@@ -77,11 +77,29 @@ button {
 
 }
 
+.sec-button {
+    border-radius: 5px;
+    color: #6442ff;
+    border: solid 1px #6442ff;
+    padding: .2em 1em;
+}
+
+.add-button {
+    color: lightseagreen;
+    font-size: .7em;
+}
+
+.remove-button {
+    color: darkred;
+    font-size: .7em;
+}
+
 textarea,input {
     border: solid 1px #dddd;
     border-radius: 5px;
     padding: .5em;
-    width: 80%;
+    font-size: .8em;
+    justify-self: stretch;
 }
 
 textarea {

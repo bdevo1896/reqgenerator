@@ -1,10 +1,9 @@
 import Block from './Block';
 
-export const PARAMETER_TYPES = {
-    string: "String",
-    number: "Number",
-    bool: "Boolean",
-    array: "Array",
+export const PARAMETER_TYPES = ["String","Number","Boolean","Array"];
+
+export class Requirement {
+    
 }
 
 export default class UseCase extends Block {

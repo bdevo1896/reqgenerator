@@ -27,7 +27,7 @@ function SideNavigation ({cases,classes}) {
             </ul>
             <style jsx>{`
                 .o_side-navigation {
-                    border-right: solid 2px #EEEE;
+                    border-right: solid 1px #dddd;
                 }
 
                 ul {

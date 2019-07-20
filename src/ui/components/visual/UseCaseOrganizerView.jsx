@@ -26,6 +26,7 @@ function UseCaseOrganizerView({cases,classes}){
             .o_use-case-organizer {
                 overflow-x: hidden;
                 overflow-y: scroll;
+                padding-right: 10em;
             } 
         `}</style>
     </div>

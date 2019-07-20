@@ -13,10 +13,11 @@ function Layout(props) {
                 }
                 main {
                     display: grid;
-                    grid-template-columns: 1fr 5fr 1fr;
+                    grid-template-columns: 2fr 8fr;
                     width: 100vw;
                     height: 100vh;
                     overflow: hidden;
+                    flex-grow: 0;
                 }
             `}</style>
         </div>

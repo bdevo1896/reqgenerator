@@ -1,26 +1,26 @@
-const ParameterView = ({name,type,classes}) => (
+const ParameterView = ({name,type,isRequired,classes}) => (
     <li className={classes}>
-        <p>{name} :<span>{type}</span></p>
+        <p>{name} :<span>{type}</span> {isRequired ? '(Required)':''}</p>
     </li>
 )
 
 const UseCaseDisplayView = ({useCase,onEdit,caseNum}) => (
     <div className={`display-view`}>
-        <button className="m-xs-all" onClick={onEdit}>Edit</button>
+        <button className="m-xs-all sec-button" onClick={onEdit}>Edit</button>
         <h3>UC{caseNum < 10 ? `0${caseNum}`:`${caseNum}`}: {useCase.title}</h3>
         <small>Description</small>
         <p>{useCase.description}</p>
         <small>Requirements</small>
-        <ol>
+        <ol className="m-s-left">
             {
                 useCase.requirements.map((requirement) => {
                     return (
-                        <li>{requirement.text}</li>
+                        <li key={requirement.id}>{requirement.text}</li>
                     )
                 })
             }
         </ol>
-        <div className="ins-outs">
+        <div className="parameters">
             <div>
                 <small>In</small>
                 <ul>
@@ -28,8 +28,10 @@ const UseCaseDisplayView = ({useCase,onEdit,caseNum}) => (
                         useCase.inputs.map((input) => {
                             return (
                                 <ParameterView 
+                                    key={input.name}
                                     name={input.name}
                                     type={input.type}
+                                    isRequired={input.isRequired}
                                 />
                             )
                         })
@@ -43,8 +45,10 @@ const UseCaseDisplayView = ({useCase,onEdit,caseNum}) => (
                         useCase.outputs.map((output) => {
                             return (
                                 <ParameterView 
+                                    key={output.name}
                                     name={output.name}
                                     type={output.type}
+                                    isRequired={output.isRequired}
                                 />
                             )
                         })
@@ -54,8 +58,8 @@ const UseCaseDisplayView = ({useCase,onEdit,caseNum}) => (
         </div>
         <style jsx>{`
             .display-view {
-                display: flex;
-                flex-flow: column nowrap;
+                display: grid;
+                grid-gap: 10px;
                 width: 100%;
             }
 
@@ -63,6 +67,11 @@ const UseCaseDisplayView = ({useCase,onEdit,caseNum}) => (
                 position: absolute;
                 right: 10px;
                 top: 10px;
+            }
+
+            .parameters {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
             }
 
         `}</style>

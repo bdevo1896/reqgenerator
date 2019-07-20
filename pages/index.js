@@ -9,7 +9,7 @@ const Home  = () => (
             classes="p-s-all"
         />
         <UseCaseOrganizerView />
-        <UseCaseAddButton />
+        <UseCaseAddButton classes="m-xs-all"/>
     </Fragment>
 )
 

@@ -1,4 +1,4 @@
-import {PureComponent} from 'react';
+import {PureComponent,useState} from 'react';
 import {PARAMETER_TYPES} from '../../../lib/UseCase';
 import {connect} from 'react-redux';
 
@@ -14,28 +14,54 @@ function makeId() {
     return 'P'+Math.floor(Math.random() * 30000);
 }
 
-const ParameterView = ({parameter,onClick}) => (
-    <li className="parameter-view">
-        <label>Name <input type="text" value={parameter.name} onChange={(event) => parameter.name=event.target.value}/></label>
-        <label>Type <select onChange={(event) => parameter.type = event.target.value}>
-            {
-                PARAMETER_TYPES.map((type) => {
-                    return (
-                        <option value={type} selected={parameter.type==type}>{type}</option>
-                    )
-                })
-            }
-        </select>
-        </label>
-        <label>Required <input type="checkbox" value={parameter.isRequired} onChange={(event)=> parameter.isRequired = event.target.value}/></label>
-        <button onClick={onClick}>x</button>
-    </li>
-)
+function ParameterView ({parameter,onClick,onUpdate,isInput}) {
+    const [name,setName] = useState(parameter.name);
+    const [type,setType] = useState(parameter.type);
+    const [required,setRequired] = useState(parameter.isRequired);
 
-const RequirementView = ({requirement,onClick}) => (
+    return (
+        <li className="parameter-view">
+            <label className="m-xs-all">
+                <small>Name</small>
+                <input className="m-xs-top" type="text" value={name} onChange={(event) => {setName(event.target.value); onUpdate(parameter.id,name,type,required,isInput)}}/>
+            </label>
+
+            <label className="m-xs-all">
+                <small>Type</small> 
+                <select className="m-xs-top" onChange={(event) => {setType(event.target.value); onUpdate(parameter.id,name,type,required,isInput)}} defaultValue={parameter.type}>
+                    {
+                        PARAMETER_TYPES.map((type) => {
+                            return (
+                                <option key={type} value={type}>{type}</option>
+                            )
+                        })
+                    }
+                </select>
+            </label>
+            <label className="m-xs-all"><small>Required</small> <input className="m-xs-top" type="checkbox" value={parameter.isRequired} onChange={(event)=> {setRequired(event.target.checked); onUpdate(parameter.id,name,type,required,isInput)}}/></label>
+            <button className="remove-button" onClick={onClick}>Remove</button>
+            <style jsx>{`
+                .parameter-view {
+                    display: grid;
+                    grid-template-columns: repeat(4,2fr);
+                }
+                label {
+                    display: flex;
+                    flex-flow: column nowrap;
+                    align-items: flex-start;
+                }
+                button {
+                    justify-self: flex-start;
+                }
+            `}</style>
+        </li>
+    )
+}
+
+const RequirementView = ({requirement,onClick,onChange}) => (
     <li>
-        {/* <input type="text" value={requirement.text} onChange={(event) => requirement.text=event.target.value}/>
-        <button onClick={onClick}>x</button> */}
+        <input className="m-xs-all" type="text" value={requirement.text} onChange={(event) => onChange(requirement.id,event.target.value)}/>
+        <button className="remove-button" onClick={onClick}>Remove</button>
     </li>
 )
 
@@ -73,6 +99,8 @@ class UseCaseEditView extends PureComponent {
         this.deleteParameter = this.deleteParameter.bind(this);
         this.addNewRequirement = this.addNewRequirement.bind(this);
         this.deleteRequirement = this.deleteRequirement.bind(this);
+        this.updateRequirement = this.updateRequirement.bind(this);
+        this.updateParameter = this.updateParameter.bind(this);
     }
 
     addNewParameter(isInput) {
@@ -80,20 +108,48 @@ class UseCaseEditView extends PureComponent {
 
         if(isInput) {
             const {inputs} = this.state;
-            inputs[paramId] = {id: paramId, name: '',type: PARAMETER_TYPES.string,isRequired: false};
+            const newList = {...inputs};
+            newList[paramId] = {id: paramId, name: '',type: PARAMETER_TYPES[0],isRequired: false};
+            this.setState({inputs: newList});
         }else {
             const {outputs} = this.state;
-            outputs[paramId] = {id: paramId, name: '',type: PARAMETER_TYPES.string,isRequired: false};
+            const newList = {...outputs};
+            newList[paramId] = {id: paramId, name: '',type: PARAMETER_TYPES[0],isRequired: false};
+            this.setState({outputs: newList});
         }
     }
 
     deleteParameter(isInput,id) {
         if(isInput) {
             const {inputs} = this.state;
-            delete inputs[id];
+            const newList = {...inputs};
+            delete newList[id];
+            this.setState({inputs: newList});
         }else {
             const {outputs} = this.state;
-            delete outputs[id];
+            const newList = {...outputs};
+            delete newList[id];
+            this.setState({outputs: newList});
+        }
+    }
+
+    updateParameter(id,name,type,required,isInput) {
+        const {inputs,outputs} = this.state;
+
+        if(!isInput) {
+            const newList = {...outputs};
+            const param = newList[id];
+            param.name = name;
+            param.type = type;
+            param.isRequired = required;
+            this.setState({outputs: newList});
+        }else {
+            const newList = {...inputs};
+            const param = newList[id];
+            param.name = name;
+            param.type = type;
+            param.isRequired = required;
+            this.setState({inputs: newList});
         }
     }
 
@@ -111,7 +167,13 @@ class UseCaseEditView extends PureComponent {
         const newList = {...requirements};
         delete newList[id];
         this.setState({requirements: newList})
+    }
 
+    updateRequirement(id,text) {
+        const {requirements} = this.state;
+        const newList = {...requirements};
+        newList[id].text = text;
+        this.setState({requirements: newList});
     }
 
     handleSave() {
@@ -121,9 +183,24 @@ class UseCaseEditView extends PureComponent {
 
         updateTitle(id,title);
         updateDescription(id,description);
-        updateRequirements(id,Object.values(requirements));
-        updateInputs(id,Object.values(inputs));
-        updateOutputs(id,Object.values(outputs));
+
+        const newRequirements = [];
+        Object.values(requirements).map((req)=> {
+            newRequirements.push(req.text);
+        })
+        updateRequirements(id,newRequirements);
+
+        const newInputs = [];
+        Object.values(inputs).map((input) => {
+            newInputs.push({name: input.name,type: input.type,isRequired: input.isRequired})
+        })
+        updateInputs(id,newInputs);
+
+        const newOutputs = [];
+        Object.values(outputs).map((output) => {
+            newInputs.push({name: output.name,type: output.type,isRequired: output.isRequired})
+        })
+        updateOutputs(id,newOutputs);
 
         onSave();
     }
@@ -132,23 +209,25 @@ class UseCaseEditView extends PureComponent {
         const {title,description,requirements,inputs,outputs} = this.state;
         return (
             <div className="edit-view">
-                <button className="save-button m-xs-all" onClick={() => this.handleSave()}>Save</button>
+                <button className="save-button sec-button m-xs-all" onClick={() => this.handleSave()}>Save</button>
                 <label><h4>Title</h4> <input type="text" name="title" onChange={(event)=> this.setState({title: event.target.value})} value={title}/></label>
                 <label><h4>Description</h4> <textarea name="description"  onChange={(event)=> this.setState({description: event.target.value})} value={description}/></label>
-                <label><h4>Requirements</h4> <button onClick={() => this.addNewRequirement()}>+</button></label>
-                <ol>
-                    {
-                        Object.values(requirements).map((req) => {
-                            return (
-                                <RequirementView key={req.id} requirement={req} onClick={() => this.deleteRequirement(req.id)}/>
-                            )
-                        })
-                    }
-                </ol>
+                <div>
+                    <h4>Requirements</h4>
+                    <ol className="m-s-left">
+                        {
+                            Object.values(requirements).map((req) => {
+                                return (
+                                    <RequirementView key={req.id} requirement={req} onClick={() => this.deleteRequirement(req.id)} onChange={this.updateRequirement}/>
+                                )
+                            })
+                        }
+                    </ol>
+                    <button className="add-button" onClick={() => this.addNewRequirement()}>Add Requirement</button>
+                </div>
                 <div className="parameters">
                     <div className="inputs">
                         <h4>Inputs</h4>
-                        <button onClick={() => this.addNewParameter(true)}>+</button>
                         <ul>
                             {
                                 Object.values(inputs).map((input) => {
@@ -157,15 +236,17 @@ class UseCaseEditView extends PureComponent {
                                             key={input.id}
                                             parameter={input}
                                             onClick={() => this.deleteParameter(true,input.id)}
+                                            onUpdate={this.updateParameter}
+                                            isInput={true}
                                         />
                                     )
                                 })
                             }
                         </ul>
+                        <button className="add-button" onClick={() => this.addNewParameter(true)}>Add Input</button>
                     </div>
                     <div className="outputs">
                         <h4>Outputs</h4>
-                        <button onClick={() => this.addNewParameter(false)}>+</button>
                         <ul>
                             
                             {
@@ -175,11 +256,14 @@ class UseCaseEditView extends PureComponent {
                                             key={output.id}
                                             parameter={output}
                                             onClick={() => this.deleteParameter(false,output.id)}
+                                            onUpdate={this.updateParameter}
+                                            isInput={false}
                                         />
                                     )
                                 })
                             }
                         </ul>
+                        <button className="add-button" onClick={() => this.addNewParameter(false)}>Add Output</button>
                     </div>
                 </div>
 
@@ -191,10 +275,21 @@ class UseCaseEditView extends PureComponent {
                         width: 100%;
                     }
 
+                    .edit-view label {
+                        display: flex;
+                        flex-flow: column nowrap;
+                        margin-right: 5em;
+                    }
+
                     .save-button {
                         position: absolute;
                         right: 10px;
                         top: 10px;
+                    }
+
+                    .parameters {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
                     }
                 `}</style>
             </div>
