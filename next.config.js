@@ -10,6 +10,10 @@ module.exports = withCSS({
       fs: 'empty',
     };
 
+    config.resolve.alias = Object.assign({}, config.resolve.alias, {
+      "react-pdf": "react-pdf/dist/entry.noworker.js"
+    });
+
     const workboxOptions = {
       clientsClaim: true,
       skipWaiting: true,

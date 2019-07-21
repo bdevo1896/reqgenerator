@@ -1289,7 +1289,15 @@ img {
   border-radius: 5px;
   color: #6442ff;
   border: solid 1px #6442ff;
-  padding: .2em 1em; }
+  padding: .2em 1em;
+  margin: 10px;
+  font-weight: 400;
+  font-size: .8em;
+  background-color: white; }
+  .sec-button:hover {
+    opacity: 0.8;
+    transform: translateY(1px);
+    transition: opacity,transform 150ms ease-in; }
 
 .add-button {
   color: lightseagreen;

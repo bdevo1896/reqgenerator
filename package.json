@@ -21,6 +21,10 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
+    "react-to-print": "^2.2.0",
     "redux": "^4.0.1"
+  },
+  "peerDependencies": {
+    "webpack": "^4.36.1"
   }
 }
