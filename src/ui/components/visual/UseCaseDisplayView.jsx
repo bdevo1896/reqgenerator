@@ -1,10 +1,17 @@
+import {connect} from 'react-redux';
+
+const mapDispatch = ({useCases: {shiftUseCaseUp,shiftUseCaseDown}}) => ({
+    shiftUp: (id) => shiftUseCaseUp({id: id}),
+    shiftDown: (id) => shiftUseCaseDown({id: id})
+})
+
 const ParameterView = ({name,type,isRequired,classes}) => (
     <li className={classes}>
         <p>{name} :<span>{type}</span> {isRequired ? '(Required)':''}</p>
     </li>
 )
 
-const UseCaseDisplayView = ({useCase,onEdit,caseNum}) => (
+const UseCaseDisplayView = ({useCase,onEdit,caseNum,shiftUp,shiftDown}) => (
     <div className={`display-view`}>
         <button className="m-xs-all sec-button" onClick={onEdit}>Edit</button>
         <h3>UC{caseNum < 10 ? `0${caseNum}`:`${caseNum}`}: {useCase.title}</h3>
@@ -56,6 +63,11 @@ const UseCaseDisplayView = ({useCase,onEdit,caseNum}) => (
                 </ul>
             </div>
         </div>
+        <div className="directional-buttons">
+                <button className="up-button" onClick={() => shiftUp(useCase.id)}></button>
+                <button className="down-button" onClick={() => shiftDown(useCase.id)}></button>
+        </div>
+       
         <style jsx>{`
             .display-view {
                 display: grid;
@@ -63,10 +75,20 @@ const UseCaseDisplayView = ({useCase,onEdit,caseNum}) => (
                 width: 100%;
             }
 
-            button {
+            .sec-button {
                 position: absolute;
-                right: 10px;
+                right: 30px;
                 top: 10px;
+            }
+
+            .directional-buttons {
+                display: grid;
+                grid-template-rows: 20px 20px;
+                place-items: center;
+                grid-gap: 10px;
+                position: absolute;
+                top: 15px;
+                right: 10px;
             }
 
             .parameters {
@@ -78,4 +100,4 @@ const UseCaseDisplayView = ({useCase,onEdit,caseNum}) => (
     </div>
 )
 
-export default UseCaseDisplayView;
+export default connect(null,mapDispatch)(UseCaseDisplayView);

@@ -1,6 +1,6 @@
 import Block from './Block';
 
-function makeId(list,symbol) {
+function makeIdFromList(list,symbol) {
     let unique = false;
     let newId = '';
     do {
@@ -13,22 +13,25 @@ function makeId(list,symbol) {
     return newId;
 }
 
+function makeId(symbol) {
+    return ''+symbol+Math.floor(Math.random() * 30000);
+}
+
 export const PARAMETER_TYPES = ["String","Number","Boolean","Array"];
 
 export class Requirement {
-    constructor(text,currentReqs) {
-        this.text = text;
-        this.id = makeId(currentReqs,'R');
-    }
+    constructor(params) {
+        let properties = Object.assign({
+            id: makeId('R'),
+            text: ''
+        },params);
 
-    constructor(id,text) {
-        this.text = text;
-        this.id = id;
-    }
+        this.id = properties.id;
+        this.text = properties.text;
 
-    constructor(currentReqs) {
-        this.text = "";
-        this.id = makeId(currentReqs,'R');
+        if(properties.currentReqs != null) {
+            this.id = makeIdFromList(properties.currentReqs,'R');
+        }
     }
 
     toJSON() {
@@ -37,25 +40,22 @@ export class Requirement {
 }
 
 export class Parameter {
-    constructor(id,name,type,required) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.required = required;
-    }
+    constructor(params) {
+        let properties = Object.assign({
+             id: makeId('P'),
+             name: '',
+             type: PARAMETER_TYPES[0],
+             required: false,
+        },params);
 
-    constructor(currentParams) {
-        this.id = makeId(currentParams,'P');
-        this.name = "";
-        this.type = PARAMETER_TYPES[0];
-        this.required = false;
-    }
+        this.id = properties.id;
+        this.name = properties.name;
+        this.type = properties.type;
+        this.required = properties.required;
 
-    constructor(currentParams) {
-        this.id = makeId(currentParams,'P');
-        this.name = '';
-        this.type = PARAMETER_TYPES[0];
-        this.required = false;
+        if(properties.currentParams != null) {
+            this.id = makeIdFromList(properties.currentParams,'P');
+        }
     }
 
     toJSON() {
@@ -73,12 +73,12 @@ export default class UseCase extends Block {
     }
 
     createRequirement() {
-        const newReq = new Requirement();
+        const newReq = new Requirement({currentReqs: this.requirements});
         this.requirements[newReq.id] = newReq;
     }
 
     addRequirement(id,text) {
-        const newReq = new Requirement(id,text);
+        const newReq = new Requirement({id: id,text: text});
         this.requirements[id] = newReq;
     }
 
@@ -90,30 +90,29 @@ export default class UseCase extends Block {
 
     updateRequirement(id,text) {
         if(this.requirements[id] != null) {
-            let req = this.requirements[id];
-            req.text = text;
+            this.requirements[id] = new Requirement({id: id,text: text});
         }
     }
 
     createInput() {
-        const newParam = new Parameter(this.inputs);
+        const newParam = new Parameter({currentParams: this.inputs});
         this.inputs[newParam.id] = newParam;
     }
 
     createOutput() {
-        const newParam = new Parameter(this.outputs);
+        const newParam = new Parameter({currentParams: this.outputs});
         this.outputs[newParam.id] = newParam;
     }
 
     addInput(id,name,type,required) {
         if(this.inputs[id] == null) {
-            this.inputs[id] = new Parameter(id,name,type,required);
+            this.inputs[id] = new Parameter({id: id,name: name,type: type,required: required});
         }
     }
 
     addOutput(id,name,type,required) {
         if(this.outputs[id] == null) {
-            this.outputs[id] = new Parameter(id,name,type,required);
+            this.outputs[id] = new Parameter({id: id,name: name,type: type,required: required});
         }
     }
 
@@ -132,7 +131,7 @@ export default class UseCase extends Block {
     updateInput(id,name,type,required) {
         if(this.inputs[id] != null) {
             const newList = {...this.inputs};
-            newList[id] = new Parameter(id,name,type,required);
+            newList[id] = new Parameter({id: id,name: name,type: type,required: required});
             this.inputs = newList;
         }
     }
@@ -140,7 +139,7 @@ export default class UseCase extends Block {
     updateOutput(id,name,type,required) {
         if(this.outputs[id] != null) {
             const newList = {...this.outputs};
-            newList[id] = new Parameter(id,name,type,required);
+            newList[id] = new Parameter({id: id,name: name,type: type,required: required});
             this.outputs = newList;
         }
     }

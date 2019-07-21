@@ -2,12 +2,14 @@ import {PureComponent,useState} from 'react';
 import {PARAMETER_TYPES} from '../../../lib/UseCase';
 import {connect} from 'react-redux';
 
-const mapDispatch = ({useCases: {updateUseCaseTitle,updateUseCaseDescription,updateUseCaseRequirements,updateUseCaseInputs,updateUseCaseOutputs}}) => ({
+const mapDispatch = ({useCases: {updateUseCaseTitle,updateUseCaseDescription,updateUseCaseRequirements,updateUseCaseInputs,updateUseCaseOutputs,shiftUseCaseUp,shiftUseCaseDown}}) => ({
     updateTitle: (id,title) => updateUseCaseTitle({id: id, title: title}),
     updateDescription: (id,description) => updateUseCaseDescription({id: id, description: description}),
     updateRequirements: (id,requirements) => updateUseCaseRequirements({id: id, requirements: requirements}),
     updateInputs: (id,inputs) => updateUseCaseInputs({id: id, inputs: inputs}),
-    updateOutputs: (id,outputs) => updateUseCaseOutputs({id: id, outputs: outputs})
+    updateOutputs: (id,outputs) => updateUseCaseOutputs({id: id, outputs: outputs}),
+    shiftUp: (id) => shiftUseCaseUp({id: id}),
+    shiftDown: (id) => shiftUseCaseDown({id: id})
 })
 
 function ParameterView ({parameter,onClick,onUpdate,isInput}) {
@@ -203,6 +205,7 @@ class UseCaseEditView extends PureComponent {
 
     render() {
         const {title,description,requirements,inputs,outputs} = this.state;
+        const {shiftUp,shiftDown,useCase} = this.props;
         return (
             <div className="edit-view">
                 <button className="save-button sec-button m-xs-all" onClick={() => this.handleSave()}>Save</button>
@@ -262,7 +265,10 @@ class UseCaseEditView extends PureComponent {
                         <button className="add-button" onClick={() => this.addNewParameter(false)}>Add Output</button>
                     </div>
                 </div>
-
+                <div className="directional-buttons">
+                    <button className="up-button" onClick={() => shiftUp(useCase.id)}></button>
+                    <button className="down-button" onClick={() => shiftDown(useCase.id)}></button>
+                </div>
                 <style jsx>{`
                     .edit-view {
                         display: grid;
@@ -277,10 +283,20 @@ class UseCaseEditView extends PureComponent {
                         margin-right: 5em;
                     }
 
-                    .save-button {
+                    .sec-button {
                         position: absolute;
-                        right: 10px;
+                        right: 30px;
                         top: 10px;
+                    }
+        
+                    .directional-buttons {
+                        display: grid;
+                        grid-template-rows: 20px 20px;
+                        place-items: center;
+                        grid-gap: 10px;
+                        position: absolute;
+                        top: 15px;
+                        right: 10px;
                     }
 
                     .parameters {

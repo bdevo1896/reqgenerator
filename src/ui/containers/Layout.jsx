@@ -13,7 +13,7 @@ function Layout(props) {
                 }
                 main {
                     display: grid;
-                    grid-template-columns: 2fr 8fr;
+                    grid-template-columns: 2fr 10fr;
                     width: 100vw;
                     height: 100vh;
                     overflow: hidden;

@@ -1299,6 +1299,22 @@ img {
   color: darkred;
   font-size: .7em; }
 
+.up-button {
+  width: 20px;
+  height: 20px;
+  background: black;
+  opacity: .3;
+  /* The points are: centered top, left bottom, right bottom */
+  clip-path: polygon(50% 0, 0 100%, 100% 100%); }
+
+.down-button {
+  width: 20px;
+  height: 20px;
+  background: black;
+  opacity: .3;
+  /* The points are: centered top, left bottom, right bottom */
+  clip-path: polygon(50% 100%, 0 0, 100% 0); }
+
 textarea, input {
   border: solid 1px #dddd;
   border-radius: 5px;

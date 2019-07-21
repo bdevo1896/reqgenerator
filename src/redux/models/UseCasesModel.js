@@ -129,14 +129,13 @@ export const useCases = {
             let index = 0;
             let found = false;
             do {
-                if(key[index] == id) {
+                if(keys[index] == id) {
                     found = true;
+                }else {
+                    index++;
                 }
-                index++;
             }while(index < keys.length && !found);
-
             const values = Object.values(newCases);
-
             if(index - 1 >= 0) {
                 let tempVal = values[index - 1];
                 let tempKey = keys[index - 1];
@@ -148,9 +147,8 @@ export const useCases = {
                 keys[index-1] = key;
             }
 
-            let result = {};
+            const result = {};
             keys.forEach((key,i) => result[key]=values[i]);
-
             return {
                 ...state,
                 cases: result
@@ -168,10 +166,11 @@ export const useCases = {
             let index = 0;
             let found = false;
             do {
-                if(key[index] == id) {
+                if(keys[index] == id) {
                     found = true;
+                }else {
+                    index++;
                 }
-                index++;
             }while(index < keys.length && !found);
 
             const values = Object.values(newCases);
@@ -187,9 +186,8 @@ export const useCases = {
                 keys[index+1] = key;
             }
 
-            let result = {};
+            const result = {};
             keys.forEach((key,i) => result[key]=values[i]);
-
             return {
                 ...state,
                 cases: result
