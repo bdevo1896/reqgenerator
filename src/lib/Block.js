@@ -9,12 +9,14 @@ export default class Block {
         this.symbol = symbol;
         this.type = type;
         this.id = createID(symbol);
-        this.html = '';
-        this.markdown = '';
         this.ref = null;
     }
 
     toJSON() {
-        return {id: this.id, title: this.title,symbol: this.symbol,type: this.type,html: this.html,markdown: this.markdown};
+        return {id: this.id, title: this.title,symbol: this.symbol,type: this.type};
+    }
+
+    toMarkDown() {
+        return `### ${this.title} \n`;
     }
 }

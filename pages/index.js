@@ -1,7 +1,7 @@
 import SideNavigation from '../src/ui/components/navigation/SideNavigation';
 import {Fragment} from 'react';
 import UseCaseOrganizerView from '../src/ui/components/visual/UseCaseOrganizerView';
-import UseCaseAddButton from '../src/ui/components/visual/UseCaseAddButton';
+import ButtonDrawer from '../src/ui/containers/ButtonDrawer';
 
 const Home  = () => (
     <Fragment>
@@ -9,7 +9,7 @@ const Home  = () => (
             classes="p-s-all"
         />
         <UseCaseOrganizerView />
-        <UseCaseAddButton classes="m-xs-all"/>
+        <ButtonDrawer />
     </Fragment>
 )
 

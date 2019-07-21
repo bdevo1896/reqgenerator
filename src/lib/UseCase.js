@@ -151,4 +151,20 @@ export default class UseCase extends Block {
         base.outputs = this.outputs;
         return base;
     }
+
+    toMarkDown() {
+        let markdown = super.toMarkDown();
+        let requirementsMd = ``;
+        Object.values(this.requirements).forEach((req,i) => requirementsMd+=`${i}. ${req}\n`);
+        let inputsMd = ``;
+        Object.values(this.inputs).forEach((input,i) => inputsMd+=`${i}. ${input}\n`);
+        let outputsMd = ``;
+        Object.values(this.inputs).forEach((input,i) => outputsMd+=`${i}. ${input}\n`);
+
+        let useCaseMd =`${markdown}\n------\n#### Description\n${this.description}\n#### Requirements\n${requirementsMd}\n#### Parameters\n**Inputs**\n${inputsMd != '' ? inputsMd : 'No Inputs'}\n**Outputs**\n${outputsMd != '' ? outputsMd : 'No Outputs'}\n------\n`;
+
+        console.log(useCaseMd);
+
+        return useCaseMd;
+    }
 }
