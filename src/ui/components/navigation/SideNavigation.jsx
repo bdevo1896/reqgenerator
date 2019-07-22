@@ -28,6 +28,7 @@ function SideNavigation ({cases,classes}) {
             <style jsx>{`
                 .o_side-navigation {
                     border-right: solid 1px #dddd;
+                    overflow-y: scroll;
                 }
 
                 ul {

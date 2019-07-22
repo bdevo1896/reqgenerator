@@ -9,8 +9,7 @@ export const useCases = {
             const {cases} = state;
             const {title,description,ref} = payload;
 
-            const newCase = new UseCase(title,description,[],[],[]);
-            newCase.ref = ref;
+            const newCase = new UseCase({title: title,description: description,requirements: {},inputs: {},outputs: {},ref: ref, currentList: cases});
 
             let newCases = {...cases};
             newCases[newCase.id] = newCase;
@@ -341,6 +340,15 @@ export const useCases = {
                 ...state,
                 cases: result
             }
+        },
+
+        importData(state,payload) {
+            const {cases} = state;
+            const {newCases} = payload;
+
+            const newList = {...cases};
+            
+
         }
     },
     effects: {}

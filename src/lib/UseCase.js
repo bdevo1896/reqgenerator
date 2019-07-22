@@ -1,5 +1,3 @@
-import Block from './Block';
-
 function makeIdFromList(list,symbol) {
     let unique = false;
     let newId = '';
@@ -34,6 +32,20 @@ export class Requirement {
         }
     }
 
+    compareRequirement(otherReq, currentReqs) {
+        if(this.id == otherReq.id) {
+            otherReq.id = makeIdFromList(currentReqs,'R');
+        }
+
+        if(otherReq.text == null) {
+            return -1;
+        }else if(otherReq.text != this.text) {
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+
     toJSON() {
         return {id: this.id, text: this.text};
     }
@@ -58,18 +70,48 @@ export class Parameter {
         }
     }
 
+    compareParameters(otherParam, currentParams) {
+        if(this.id == otherParam.id) {
+            otherParam.id = makeIdFromList(currentParams,'P');
+        }
+
+        if(otherParam.name == null) {
+            return -1;
+        }
+        else if(this.name != otherParam.name) {
+            return 1;
+        }
+
+        return 0;
+    }
+
     toJSON() {
         return {id: this.id, name: this.name, type: this.type, required: this.required};
     }
 }
 
-export default class UseCase extends Block {
-    constructor(title,description,requirements,inputs,outputs) {
-        super(title,'UC','usecase');
-        this.description = description;
-        this.requirements = requirements;
-        this.inputs = inputs;
-        this.outputs = outputs;
+export default class UseCase {
+    constructor(params) {
+        let properties = Object.assign({
+            id: makeId('UC'),
+            title: 'New Use Case',
+            description: 'This is an example description',
+            requirements: {},
+            inputs: {},
+            outputs: {},
+            ref: null
+       },params);
+       
+       if(params.currentList == null) {
+       this.id = properties.id;
+       }else {
+           this.id = makeIdFromList(params.currentList,'UC');
+       }
+       this.title = properties.title;
+        this.description = properties.description;
+        this.requirements = properties.requirements;
+        this.inputs = properties.inputs;
+        this.outputs = properties.outputs;
     }
 
     createRequirement() {
@@ -141,6 +183,17 @@ export default class UseCase extends Block {
             const newList = {...this.outputs};
             newList[id] = new Parameter({id: id,name: name,type: type,required: required});
             this.outputs = newList;
+        }
+    }
+
+    compareUseCase(useCase, currentList) {
+        if(useCase.id == this.id) {
+            useCase.id = makeIdFromList(currentList,'UC');
+        }
+
+        if(useCase.title == null)
+        if(useCase.description != this.description && useCase.title != this.title) {
+
         }
     }
 
