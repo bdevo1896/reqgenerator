@@ -26,7 +26,9 @@ export const useCases = {
             const {id} = payload;
 
             const newCases = {...cases};
-            delete newCases[id];
+            if(newCases[id] != null) {
+                delete newCases[id];
+            }
 
             return {
                 ...state,
@@ -251,11 +253,13 @@ export const useCases = {
             const newCases = {...cases};
             const useCase = newCases[id];
 
-            useCase.title = title;
-            useCase.description = description;
-            useCase.requirements = requirements;
-            useCase.inputs = inputs;
-            useCase.outputs = outputs;
+            if(useCase != null) {
+                useCase.title = title;
+                useCase.description = description;
+                useCase.requirements = requirements;
+                useCase.inputs = inputs;
+                useCase.outputs = outputs;
+            }
 
             return {
                 ...state,

@@ -18,8 +18,11 @@ export default class ParameterView extends Component {
 
     componentWillUnmount() {
         const {id,name,type,required,isInput,onUpdate} = this.state;
+        const {deleted} = this.props;
 
-        onUpdate(id,name,type,required,isInput);
+        if(!deleted) {
+            onUpdate(id,name,type,required,isInput);
+        }
     }
 
     render() {

@@ -1299,6 +1299,20 @@ img {
     transform: translateY(1px);
     transition: opacity,transform 150ms ease-in; }
 
+.sec-bad-button {
+  border-radius: 5px;
+  color: red;
+  border: solid 1px red;
+  padding: .2em 1em;
+  margin: 10px;
+  font-weight: 400;
+  font-size: .8em;
+  background-color: white; }
+  .sec-bad-button:hover {
+    opacity: 0.8;
+    transform: translateY(1px);
+    transition: opacity,transform 150ms ease-in; }
+
 .add-button {
   color: lightseagreen;
   font-size: .7em; }

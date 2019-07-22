@@ -3,10 +3,11 @@ import {connect} from 'react-redux';
 import {Requirement,Parameter} from '../../../lib/UseCase';
 import ParameterEditView from './ParameterEditView';
 
-const mapDispatch = ({useCases: {updateUseCase,shiftUseCaseUp,shiftUseCaseDown}}) => ({
+const mapDispatch = ({useCases: {updateUseCase,shiftUseCaseUp,shiftUseCaseDown,deleteUseCase}}) => ({
     updateUseCase: (id,title,description,requirements,inputs,outputs) => updateUseCase({id: id,title: title,description: description,requirements: requirements,inputs: inputs,outputs: outputs}),
     shiftUp: (id) => shiftUseCaseUp({id: id}),
-    shiftDown: (id) => shiftUseCaseDown({id: id})
+    shiftDown: (id) => shiftUseCaseDown({id: id}),
+    deleteCase: (id) => deleteUseCase({id: id})
 })
 
 const RequirementView = ({requirement,onClick,onChange}) => (
@@ -31,10 +32,12 @@ class UseCaseEditView extends Component {
             description: useCase.description,
             requirements: useCase.requirements,
             inputs: useCase.inputs,
-            outputs: useCase.outputs
+            outputs: useCase.outputs,
+            deleted:  false
         }
 
         this.handleSave = this.handleSave.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
         this.addNewParameter = this.addNewParameter.bind(this);
         this.deleteParameter = this.deleteParameter.bind(this);
         this.addNewRequirement = this.addNewRequirement.bind(this);
@@ -120,20 +123,29 @@ class UseCaseEditView extends Component {
         onSave();
     }
 
+    handleDelete() {
+        const {useCase, deleteCase} = this.props;
+        deleteCase(useCase.id);
+        this.setState({deleted: true})
+    }
+
     componentWillUnmount() {
         const {updateUseCase,useCase} = this.props;
         const {id} = useCase;
-        const {title,description,requirements,inputs,outputs} = this.state;
+        const {title,description,requirements,inputs,outputs,deleted} = this.state;
 
-        updateUseCase(id,title,description,requirements,inputs,outputs)
+        if(!deleted) {
+            updateUseCase(id,title,description,requirements,inputs,outputs)
+        }
     }
 
     render() {
-        const {title,description,requirements,inputs,outputs} = this.state;
+        const {title,description,requirements,inputs,outputs,deleted} = this.state;
         const {shiftUp,shiftDown,useCase} = this.props;
         return (
             <div className="edit-view">
                 <button className="save-button sec-button m-xs-all" onClick={() => this.handleSave()}>Save</button>
+                <button className="delete-button sec-bad-button m-xs-all" onClick={() => this.handleDelete()}>Delete</button>
                 <label><h4>Title</h4> <input type="text" name="title" onChange={(event)=> this.setState({title: event.target.value})} value={title}/></label>
                 <label><h4>Description</h4> <textarea name="description"  onChange={(event)=> this.setState({description: event.target.value})} value={description}/></label>
                 <div>
@@ -162,6 +174,7 @@ class UseCaseEditView extends Component {
                                             onClick={() => this.deleteParameter(true,input.id)}
                                             onUpdate={this.updateParameter}
                                             isInput={true}
+                                            deleted={deleted}
                                         />
                                     )
                                 })
@@ -182,6 +195,7 @@ class UseCaseEditView extends Component {
                                             onClick={() => this.deleteParameter(false,output.id)}
                                             onUpdate={this.updateParameter}
                                             isInput={false}
+                                            deleted={deleted}
                                         />
                                     )
                                 })
@@ -212,6 +226,12 @@ class UseCaseEditView extends Component {
                         position: absolute;
                         right: 30px;
                         top: 10px;
+                    }
+
+                    .delete-button {
+                        position: absolute;
+                        right: 30px;
+                        bottom: 10px;
                     }
         
                     .directional-buttons {
