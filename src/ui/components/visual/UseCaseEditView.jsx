@@ -13,6 +13,11 @@ const RequirementView = ({requirement,onClick,onChange}) => (
     <li>
         <input className="m-xs-all" type="text" value={requirement.text} onChange={(event) => onChange(requirement.id,event.target.value)}/>
         <button className="remove-button" onClick={onClick}>Remove</button>
+        <style jsx>{`
+            input {
+                width: 60%;
+            }
+        `}</style>
     </li>
 )
 
