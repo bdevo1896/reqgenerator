@@ -347,8 +347,29 @@ export const useCases = {
             const {newCases} = payload;
 
             const newList = {...cases};
-            
+            const newListVals = Object.values(newList);
+            const newCasesVals = Object.values(newCases);
 
+            newCasesVals.forEach((useCase,i) => {
+                if(i < newListVals.length) {
+                    const compareVal = newListVals[i].compareUseCase(useCase,newListVals);
+                    switch(compareVal) {
+                        case -1:
+                            newCasesVals = [...newCasesVals.slice(0,i),...newCasesVals.slice(i+1)];
+                            break;
+                        case 1:
+                            newList[useCase.id] = new UseCase({id: useCase.id,title: useCase.title, requirements: useCase.requirements, inputs: useCase.inputs, outputs: useCase.outputs, ref: useCase.ref});
+                            break;
+                        default:
+                            newCasesVals = [...newCasesVals.slice(0,i),...newCasesVals.slice(i+1)];
+                    }
+                }
+            })
+
+            return {
+                ...state,
+                cases: newList
+            }
         }
     },
     effects: {}

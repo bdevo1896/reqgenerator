@@ -191,9 +191,13 @@ export default class UseCase {
             useCase.id = makeIdFromList(currentList,'UC');
         }
 
-        if(useCase.title == null)
-        if(useCase.description != this.description && useCase.title != this.title) {
-
+        if(useCase.title == null) {
+            return -1;
+        }
+        else if(useCase.description != this.description && useCase.title != this.title) {
+            return 1;
+        }else {
+            return 0;
         }
     }
 

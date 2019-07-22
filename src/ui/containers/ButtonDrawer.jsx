@@ -1,7 +1,8 @@
 import UseCaseAddButton from '../components/visual/UseCaseAddButton';
 import ExportToJSONButton from '../components/visual/ExportToJSONButton';
 import ExportToMarkDownButton from '../components/visual/ExportToMarkdownButton';
-import ExportToPDFButton from '../components/navigation/ExportToPDFButton';
+// import ExportToPDFButton from '../components/navigation/ExportToPDFButton';
+import ImportDataButton from '../components/visual/ImportDataButton';
 
 const ButtonDrawer = () => (
     <div className="o_button-drawer">
@@ -9,6 +10,7 @@ const ButtonDrawer = () => (
         <ExportToJSONButton />
         <ExportToMarkDownButton />
         {/* <ExportToPDFButton /> */}
+        <ImportDataButton />
         <style jsx>{`
             .o_button-drawer {
                 display: grid;
