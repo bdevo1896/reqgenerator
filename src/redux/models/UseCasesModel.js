@@ -351,7 +351,7 @@ export const useCases = {
                 if(newList[useCase.id] != null) {
                     useCase.makeNewId(Object.values(newList));
                 }
-                
+
                 newList[useCase.id] = new UseCase({id: useCase.id,title: useCase.title, requirements: useCase.requirements, inputs: useCase.inputs, outputs: useCase.outputs, ref: useCase.ref});
             })
 

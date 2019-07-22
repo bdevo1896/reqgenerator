@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {useState,Fragment} from 'react';
+import {useState,Fragment,createRef} from 'react';
 import ImportDataForm from '../form/ImportDataForm';
 
 const mapDispatch = ({useCases: {importData}}) => ({
@@ -10,7 +10,11 @@ function ImportDataButton({importData}) {
     const [formVisible,setFormVisible] = useState(false);
 
     const finishImport = (file) => {
-        importData(JSON.parse(file));
+        const newCases = JSON.parse(file);
+        Object.values(newCases).map((useCase) => {
+            useCase.ref = createRef();
+        })
+        importData(newCases);
         setFormVisible(false);
     }
 
