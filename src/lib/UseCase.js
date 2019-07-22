@@ -114,6 +114,10 @@ export default class UseCase {
         this.outputs = properties.outputs;
     }
 
+    makeNewId(currentList) {
+        this.id = makeIdFromList(currentList,'UC');
+    }
+
     createRequirement() {
         const newReq = new Requirement({currentReqs: this.requirements});
         this.requirements[newReq.id] = newReq;
@@ -186,13 +190,12 @@ export default class UseCase {
         }
     }
 
-    compareUseCase(useCase, currentList) {
-        if(useCase.id == this.id) {
-            useCase.id = makeIdFromList(currentList,'UC');
-        }
+    compareUseCase(useCase) {
 
         if(useCase.title == null) {
             return -1;
+        }else if(useCase.id == this.id) {
+            return 2;
         }
         else if(useCase.description != this.description && useCase.title != this.title) {
             return 1;
@@ -202,7 +205,7 @@ export default class UseCase {
     }
 
     toJSON() {
-        const base = super.toJSON();
+        const base = {id: this.id, title: this.title, description: this.description};
         base.requirements = this.requirements;
         base.inputs = this.inputs;
         base.outputs = this.outputs;

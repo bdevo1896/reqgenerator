@@ -10,15 +10,25 @@ function ImportDataButton({importData}) {
     const [formVisible,setFormVisible] = useState(false);
 
     const finishImport = (file) => {
-        importData(file);
+        importData(JSON.parse(file));
         setFormVisible(false);
     }
+
+    const onClose = () => {
+        setFormVisible(false);
+    }
+
     return (
         <Fragment>
-            <button className="main-button" onClick={() => setFormVisible(true)}>Import Data</button>
+            <button className="main-button" onClick={(event) => {
+                event.preventDefault();
+                setFormVisible(true);
+            }}
+            >Import Data</button>
             <ImportDataForm 
                 importData={finishImport}
                 isVisible={formVisible}
+                closeForm={onClose}
             />
         </Fragment>
     )
