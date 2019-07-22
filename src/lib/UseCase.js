@@ -112,6 +112,7 @@ export default class UseCase {
         this.requirements = properties.requirements;
         this.inputs = properties.inputs;
         this.outputs = properties.outputs;
+        this.ref = properties.ref
     }
 
     makeNewId(currentList) {
