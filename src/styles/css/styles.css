@@ -1308,16 +1308,16 @@ img {
   font-size: .7em; }
 
 .up-button {
-  width: 20px;
-  height: 20px;
+  width: .6em;
+  height: .6em;
   background: black;
   opacity: .3;
   /* The points are: centered top, left bottom, right bottom */
   clip-path: polygon(50% 0, 0 100%, 100% 100%); }
 
 .down-button {
-  width: 20px;
-  height: 20px;
+  width: .6em;
+  height: .6em;
   background: black;
   opacity: .3;
   /* The points are: centered top, left bottom, right bottom */

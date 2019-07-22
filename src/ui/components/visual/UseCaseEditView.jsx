@@ -1,60 +1,13 @@
-import {PureComponent,useState} from 'react';
-import {PARAMETER_TYPES} from '../../../lib/UseCase';
+import {Component} from 'react';
 import {connect} from 'react-redux';
+import {Requirement,Parameter} from '../../../lib/UseCase';
+import ParameterEditView from './ParameterEditView';
 
-const mapDispatch = ({useCases: {updateUseCaseTitle,updateUseCaseDescription,updateUseCaseRequirements,updateUseCaseInputs,updateUseCaseOutputs,shiftUseCaseUp,shiftUseCaseDown}}) => ({
-    updateTitle: (id,title) => updateUseCaseTitle({id: id, title: title}),
-    updateDescription: (id,description) => updateUseCaseDescription({id: id, description: description}),
-    updateRequirements: (id,requirements) => updateUseCaseRequirements({id: id, requirements: requirements}),
-    updateInputs: (id,inputs) => updateUseCaseInputs({id: id, inputs: inputs}),
-    updateOutputs: (id,outputs) => updateUseCaseOutputs({id: id, outputs: outputs}),
+const mapDispatch = ({useCases: {updateUseCase,shiftUseCaseUp,shiftUseCaseDown}}) => ({
+    updateUseCase: (id,title,description,requirements,inputs,outputs) => updateUseCase({id: id,title: title,description: description,requirements: requirements,inputs: inputs,outputs: outputs}),
     shiftUp: (id) => shiftUseCaseUp({id: id}),
     shiftDown: (id) => shiftUseCaseDown({id: id})
 })
-
-function ParameterView ({parameter,onClick,onUpdate,isInput}) {
-    const [name,setName] = useState(parameter.name);
-    const [type,setType] = useState(parameter.type);
-    const [required,setRequired] = useState(parameter.isRequired);
-
-    return (
-        <li className="parameter-view">
-            <label className="m-xs-all">
-                <small>Name</small>
-                <input className="m-xs-top" type="text" value={name} onChange={(event) => {setName(event.target.value); onUpdate(parameter.id,name,type,required,isInput)}}/>
-            </label>
-
-            <label className="m-xs-all">
-                <small>Type</small> 
-                <select className="m-xs-top" onChange={(event) => {setType(event.target.value); onUpdate(parameter.id,name,type,required,isInput)}} defaultValue={parameter.type}>
-                    {
-                        PARAMETER_TYPES.map((type) => {
-                            return (
-                                <option key={type} value={type}>{type}</option>
-                            )
-                        })
-                    }
-                </select>
-            </label>
-            <label className="m-xs-all"><small>Required</small> <input className="m-xs-top" type="checkbox" value={parameter.isRequired} onChange={(event)=> {setRequired(event.target.checked); onUpdate(parameter.id,name,type,required,isInput)}}/></label>
-            <button className="remove-button" onClick={onClick}>Remove</button>
-            <style jsx>{`
-                .parameter-view {
-                    display: grid;
-                    grid-template-columns: repeat(4,2fr);
-                }
-                label {
-                    display: flex;
-                    flex-flow: column nowrap;
-                    align-items: flex-start;
-                }
-                button {
-                    justify-self: flex-start;
-                }
-            `}</style>
-        </li>
-    )
-}
 
 const RequirementView = ({requirement,onClick,onChange}) => (
     <li>
@@ -63,8 +16,7 @@ const RequirementView = ({requirement,onClick,onChange}) => (
     </li>
 )
 
-class UseCaseEditView extends PureComponent {
-
+class UseCaseEditView extends Component {
 
     constructor(props) {
         super(props);
@@ -72,25 +24,10 @@ class UseCaseEditView extends PureComponent {
         this.state = {
             title: useCase.title,
             description: useCase.description,
-            requirements: {},
-            inputs: {},
-            outputs: {}
+            requirements: useCase.requirements,
+            inputs: useCase.inputs,
+            outputs: useCase.outputs
         }
-
-        useCase.inputs.map((input) => {
-            const paramId = makeId();
-            this.state.inputs[paramId] = input;
-        })
-
-        useCase.outputs.map((output) => {
-            const paramId = makeId();
-            this.state.outputs[paramId] = output;
-        })
-
-        useCase.requirements.map((req) => {
-            const paramId = makeId();
-            this.state.requirements[paramId] = req;
-        })
 
         this.handleSave = this.handleSave.bind(this);
         this.addNewParameter = this.addNewParameter.bind(this);
@@ -102,17 +39,17 @@ class UseCaseEditView extends PureComponent {
     }
 
     addNewParameter(isInput) {
-        const paramId = makeId();
-
         if(isInput) {
             const {inputs} = this.state;
             const newList = {...inputs};
-            newList[paramId] = {id: paramId, name: '',type: PARAMETER_TYPES[0],isRequired: false};
+            const newInput = new Parameter();
+            newList[newInput.id] = newInput;
             this.setState({inputs: newList});
         }else {
             const {outputs} = this.state;
             const newList = {...outputs};
-            newList[paramId] = {id: paramId, name: '',type: PARAMETER_TYPES[0],isRequired: false};
+            const newOutput = new Parameter();
+            newList[newOutput.id] = newOutput;
             this.setState({outputs: newList});
         }
     }
@@ -133,30 +70,29 @@ class UseCaseEditView extends PureComponent {
 
     updateParameter(id,name,type,required,isInput) {
         const {inputs,outputs} = this.state;
-
         if(!isInput) {
             const newList = {...outputs};
             const param = newList[id];
             param.name = name;
             param.type = type;
-            param.isRequired = required;
+            param.required = required;
             this.setState({outputs: newList});
         }else {
             const newList = {...inputs};
             const param = newList[id];
             param.name = name;
             param.type = type;
-            param.isRequired = required;
+            param.required = required;
             this.setState({inputs: newList});
         }
     }
 
     addNewRequirement() {
-        const paramId = makeId();
         const {requirements} = this.state;
 
         const newList = {...requirements};
-        newList[paramId] = {id: paramId, text: ''};
+        const newReq = new Requirement();
+        newList[newReq.id] = newReq;
         this.setState({requirements: newList})
     }
 
@@ -175,32 +111,16 @@ class UseCaseEditView extends PureComponent {
     }
 
     handleSave() {
-        const {updateTitle,updateDescription,updateRequirements,updateInputs,updateOutputs,useCase,onSave} = this.props;
+        const {onSave} = this.props;
+        onSave();
+    }
+
+    componentWillUnmount() {
+        const {updateUseCase,useCase} = this.props;
         const {id} = useCase;
         const {title,description,requirements,inputs,outputs} = this.state;
 
-        updateTitle(id,title);
-        updateDescription(id,description);
-
-        const newRequirements = [];
-        Object.values(requirements).map((req)=> {
-            newRequirements.push(req.text);
-        })
-        updateRequirements(id,newRequirements);
-
-        const newInputs = [];
-        Object.values(inputs).map((input) => {
-            newInputs.push({name: input.name,type: input.type,isRequired: input.isRequired})
-        })
-        updateInputs(id,newInputs);
-
-        const newOutputs = [];
-        Object.values(outputs).map((output) => {
-            newInputs.push({name: output.name,type: output.type,isRequired: output.isRequired})
-        })
-        updateOutputs(id,newOutputs);
-
-        onSave();
+        updateUseCase(id,title,description,requirements,inputs,outputs)
     }
 
     render() {
@@ -231,7 +151,7 @@ class UseCaseEditView extends PureComponent {
                             {
                                 Object.values(inputs).map((input) => {
                                     return (
-                                        <ParameterView 
+                                        <ParameterEditView 
                                             key={input.id}
                                             parameter={input}
                                             onClick={() => this.deleteParameter(true,input.id)}
@@ -251,7 +171,7 @@ class UseCaseEditView extends PureComponent {
                             {
                                 Object.values(outputs).map((output)=> {
                                     return (
-                                        <ParameterView 
+                                        <ParameterEditView 
                                             key={output.id}
                                             parameter={output}
                                             onClick={() => this.deleteParameter(false,output.id)}

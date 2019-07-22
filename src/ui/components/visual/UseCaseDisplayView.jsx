@@ -20,7 +20,7 @@ const UseCaseDisplayView = ({useCase,onEdit,caseNum,shiftUp,shiftDown}) => (
         <small>Requirements</small>
         <ol className="m-s-left">
             {
-                useCase.requirements.map((requirement) => {
+                Object.values(useCase.requirements).map((requirement) => {
                     return (
                         <li key={requirement.id}>{requirement.text}</li>
                     )
@@ -32,13 +32,13 @@ const UseCaseDisplayView = ({useCase,onEdit,caseNum,shiftUp,shiftDown}) => (
                 <small>In</small>
                 <ul>
                     {
-                        useCase.inputs.map((input) => {
+                        Object.values(useCase.inputs).map((input) => {
                             return (
                                 <ParameterView 
                                     key={input.name}
                                     name={input.name}
                                     type={input.type}
-                                    isRequired={input.isRequired}
+                                    isRequired={input.required}
                                 />
                             )
                         })
@@ -49,13 +49,13 @@ const UseCaseDisplayView = ({useCase,onEdit,caseNum,shiftUp,shiftDown}) => (
                 <small>Out</small>
                 <ul>
                     {
-                        useCase.outputs.map((output) => {
+                        Object.values(useCase.outputs).map((output) => {
                             return (
                                 <ParameterView 
                                     key={output.name}
                                     name={output.name}
                                     type={output.type}
-                                    isRequired={output.isRequired}
+                                    isRequired={output.required}
                                 />
                             )
                         })
@@ -85,7 +85,7 @@ const UseCaseDisplayView = ({useCase,onEdit,caseNum,shiftUp,shiftDown}) => (
                 display: grid;
                 grid-template-rows: 20px 20px;
                 place-items: center;
-                grid-gap: 10px;
+                grid-gap: 5px;
                 position: absolute;
                 top: 15px;
                 right: 10px;

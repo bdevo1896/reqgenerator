@@ -8,7 +8,7 @@ const ButtonDrawer = () => (
         <UseCaseAddButton />
         <ExportToJSONButton />
         <ExportToMarkDownButton />
-        <ExportToPDFButton />
+        {/* <ExportToPDFButton /> */}
         <style jsx>{`
             .o_button-drawer {
                 display: grid;

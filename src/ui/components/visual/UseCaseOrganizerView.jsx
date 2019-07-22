@@ -15,7 +15,7 @@ function UseCaseOrganizerView({cases,classes}){
                 return (
                 <UseCaseView 
                     useCase={useCase}
-                    classes="m-l-all dp8 p-m-all"
+                    classes="m-xl-all dp8 p-m-all"
                     key={useCase.id}
                     caseNum={index}
                 />
