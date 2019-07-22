@@ -7,7 +7,17 @@ const mapDispatch = ({useCases: {shiftUseCaseUp,shiftUseCaseDown}}) => ({
 
 const ParameterView = ({name,type,isRequired,classes}) => (
     <li className={classes}>
-        <p>{name} :<span>{type}</span> {isRequired ? '(Required)':''}</p>
+        <p>{name} <span className="type">:{type}</span>   <span className="required">{isRequired ? 'Required':''}</span></p>
+        <style jsx>{`
+            .type {
+                color: orange;
+            }
+
+            .required {
+                color: seagreen;
+                font-size: .8em;
+            }
+        `}</style>
     </li>
 )
 

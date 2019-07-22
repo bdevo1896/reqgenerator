@@ -81,17 +81,21 @@ class UseCaseEditView extends Component {
         if(!isInput) {
             const newList = {...outputs};
             const param = newList[id];
-            param.name = name;
-            param.type = type;
-            param.required = required;
-            this.setState({outputs: newList});
+            if(param != null) {
+                param.name = name;
+                param.type = type;
+                param.required = required;
+                this.setState({outputs: newList});
+            }
         }else {
             const newList = {...inputs};
             const param = newList[id];
-            param.name = name;
-            param.type = type;
-            param.required = required;
-            this.setState({inputs: newList});
+            if(param != null) {
+                param.name = name;
+                param.type = type;
+                param.required = required;
+                this.setState({inputs: newList});
+            }
         }
     }
 

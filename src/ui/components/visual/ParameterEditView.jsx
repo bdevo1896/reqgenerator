@@ -12,15 +12,16 @@ export default class ParameterView extends Component {
             type: parameter.type,
             required: parameter.required,
             isInput: isInput,
-            onUpdate: onUpdate
+            onUpdate: onUpdate,
+            paramDeleted: false
         }
     }
 
     componentWillUnmount() {
-        const {id,name,type,required,isInput,onUpdate} = this.state;
+        const {id,name,type,required,isInput,onUpdate,paramDeleted} = this.state;
         const {deleted} = this.props;
 
-        if(!deleted) {
+        if(!deleted && !paramDeleted) {
             onUpdate(id,name,type,required,isInput);
         }
     }
@@ -72,7 +73,10 @@ export default class ParameterView extends Component {
                         this.setState({required: event.target.checked}); 
                     }}/>
             </label>
-            <button className="remove-button" onClick={onClick}>Remove</button>
+            <button className="remove-button" onClick={() => {
+                this.setState({paramDeleted: true});
+                onClick();
+            }}>Remove</button>
             <style jsx>{`
                 .parameter-view {
                     display: grid;

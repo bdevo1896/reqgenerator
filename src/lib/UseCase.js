@@ -49,6 +49,10 @@ export class Requirement {
     toJSON() {
         return {id: this.id, text: this.text};
     }
+
+    toMarkDown() {
+        return this.text;
+    }
 }
 
 export class Parameter {
@@ -87,6 +91,10 @@ export class Parameter {
 
     toJSON() {
         return {id: this.id, name: this.name, type: this.type, required: this.required};
+    }
+
+    toMarkDown() {
+        return `${this.name} :${this.type} (${this.required ? 'Required' : ''})`
     }
 }
 
@@ -213,16 +221,16 @@ export default class UseCase {
         return base;
     }
 
-    toMarkDown() {
-        let markdown = super.toMarkDown();
+    toMarkDown(useCaseIndex) {
+        let markdown =`### UC${useCaseIndex < 10 ? `0${useCaseIndex}` : useCaseIndex}: ${this.title}`;
         let requirementsMd = ``;
-        Object.values(this.requirements).forEach((req,i) => requirementsMd+=`${i}. ${req}\n`);
+        Object.values(this.requirements).forEach((req,i) => requirementsMd+=`${i+1}. ${req.toMarkDown()}\n`);
         let inputsMd = ``;
-        Object.values(this.inputs).forEach((input,i) => inputsMd+=`${i}. ${input}\n`);
+        Object.values(this.inputs).forEach((input,i) => inputsMd+=`${i+1}. ${input.toMarkDown()}\n`);
         let outputsMd = ``;
-        Object.values(this.inputs).forEach((input,i) => outputsMd+=`${i}. ${input}\n`);
+        Object.values(this.outputs).forEach((output,i) => outputsMd+=`${i+1}. ${output.toMarkDown()}\n`);
 
-        let useCaseMd =`${markdown}\n------\n#### Description\n${this.description}\n#### Requirements\n${requirementsMd}\n#### Parameters\n##### Inputs\n${inputsMd != '' ? inputsMd : 'No Inputs\n'}\n##### Outputs\n${outputsMd != '' ? outputsMd : 'No Outputs\n'}\n------\n`;
+        let useCaseMd =`${markdown}\n------\n#### Description\n${this.description}\n#### Requirements\n${requirementsMd.toString()}\n#### Parameters\n##### Inputs\n${inputsMd != '' ? inputsMd.toString() : 'No Inputs\n'}\n##### Outputs\n${outputsMd != '' ? outputsMd.toString() : 'No Outputs\n'}\n------\n`;
 
         console.log(useCaseMd);
 

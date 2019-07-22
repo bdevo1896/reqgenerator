@@ -1,4 +1,4 @@
-import UseCase from '../../lib/UseCase';
+import UseCase, { Requirement, Parameter } from '../../lib/UseCase';
 
 export const useCases = {
     state: {
@@ -352,7 +352,22 @@ export const useCases = {
                     useCase.makeNewId(Object.values(newList));
                 }
 
-                newList[useCase.id] = new UseCase({id: useCase.id,title: useCase.title, requirements: useCase.requirements, inputs: useCase.inputs, outputs: useCase.outputs, ref: useCase.ref});
+                const newRequirements = {};
+                Object.values(useCase.requirements).map((req) => {
+                    newRequirements[req.id] = new Requirement({id: req.id,text: req.text});
+                })
+
+                const newInputs = {};
+                Object.values(useCase.inputs).map((param) => {
+                    newInputs[param.id] = new Parameter({id: param.id, name: param.name, type: param.type, required: param.required});
+                })
+
+                const newOutputs = {};
+                Object.values(useCase.outputs).map((param) => {
+                    newOutputs[param.id] = new Parameter({id: param.id, name: param.name, type: param.type, required: param.required});
+                })
+
+                newList[useCase.id] = new UseCase({id: useCase.id,title: useCase.title, requirements: newRequirements, inputs: newInputs, outputs: newOutputs, ref: useCase.ref});
             })
 
             return {
