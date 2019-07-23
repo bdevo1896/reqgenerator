@@ -367,7 +367,7 @@ export const useCases = {
                     newOutputs[param.id] = new Parameter({id: param.id, name: param.name, type: param.type, required: param.required});
                 })
 
-                newList[useCase.id] = new UseCase({id: useCase.id,title: useCase.title, requirements: newRequirements, inputs: newInputs, outputs: newOutputs, ref: useCase.ref});
+                newList[useCase.id] = new UseCase({id: useCase.id,title: useCase.title, description: useCase.description,requirements: newRequirements, inputs: newInputs, outputs: newOutputs, ref: useCase.ref});
             })
 
             return {

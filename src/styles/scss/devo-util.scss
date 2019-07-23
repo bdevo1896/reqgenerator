@@ -341,7 +341,7 @@ Set as Ex: dp1 (through to 10)
         .#{$selector} {
             transition: box-shadow ($j * $small-time) ease-out;
             &:hover {
-                @include boxshadow($shadowOffsetX, $shadowOffsetY, 5px * $i, 0px, $shadowColor, 1 - (.4 * $i));
+                @include boxshadow($shadowOffsetX, $shadowOffsetY, 5px * $i, 0px, $shadowColor, 1 - (.75 * $i));
                 z-index: $i;
             }
         }
