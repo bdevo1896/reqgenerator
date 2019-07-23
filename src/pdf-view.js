@@ -1,5 +1,5 @@
 import Router from 'next/router';
-import UseCaseDocument from '../src/ui/components/pdf/UseCaseDocument';
+import UseCaseDocument from './ui/components/pdf/UseCaseDocument';
 import {useRef,Component} from 'react';
 import ReactToPrint from 'react-to-print';
 
