@@ -1,6 +1,6 @@
 import App from 'next/app'
 import React from 'react'
-import OfflineSupport from '../src/ui/components/util/OfflineSupport';
+// import OfflineSupport from '../src/ui/components/util/OfflineSupport';
 import Layout from '../src/ui/containers/Layout';
 import {Provider} from 'react-redux';
 import store from '../src/redux/store';
@@ -17,7 +17,7 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
     return (
         <Provider store={store}>
-        <OfflineSupport />
+        {/* <OfflineSupport /> */}
         <Layout>
         <Component 
             {...pageProps}
