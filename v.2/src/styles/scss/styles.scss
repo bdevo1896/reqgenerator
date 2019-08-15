@@ -1,0 +1,151 @@
+/*
+    Styles, applied here, should be completely global and never focus on a specific object/component. Global styles would include default font, spacing, drop shadows, etc. Components should
+    have specific styles. In the case of applying colors to specific components like the navigation having a specific background color of green, but another component also uses that green,
+    you have 3 options. One, put the styles here for the components individually. Two, make a separate JS file that contains global styles. Lastly, you can add the styles to the highest component
+    which in our case will be _app.js file.
+*/
+
+@import 'devo-util';
+
+@import url('https://fonts.googleapis.com/css?family=Comfortaa|Raleway&display=swap');
+
+iframe {
+    border:none;
+    overflow: hidden;
+}
+
+* {
+    font-family: 'Calibri', Helvetica, sans-serif;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: 'Calibri', Courier, monospace;
+    font-weight: 700;
+    color: #6442ff;
+}
+
+p {
+    font-size: 1em;
+    font-weight: 500;
+    color: #252525;
+}
+
+a.o_reg-site-link {
+    color: #6442ff;
+}
+
+img {
+    display: block;
+    background-color: transparent;
+}
+
+.subscription-decor {
+    transform: translateY(1px);
+}
+
+.w60 {
+    @media(min-width: 768px) {
+        width: 60%;
+    }
+}
+
+.items-c {
+    align-items: center;
+    justify-items: center;
+}
+
+.main-button {
+    color: white;
+    background-color: #6442ff;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    font-weight: 400;
+    letter-spacing: .1em;
+    padding: .5em 2em;
+    margin: 10px;
+    transition: color,background-color,border,transform 150ms ease-in;
+    font-size: .8em;
+
+    &:hover, &:active {
+        color: #6442ff;
+        background-color: white;
+        border: 1px solid #6442ff;
+        transform: translateY(1px);
+        transition: color,background-color,border,transform 150ms ease-in;
+    }
+
+}
+
+.sec-button {
+    border-radius: 5px;
+    color: #6442ff;
+    border: solid 1px #6442ff;
+    padding: .2em 1em;
+    margin: 10px;
+    font-weight: 400;
+    font-size: .8em;
+    background-color: white;
+
+    &:hover {
+        opacity: 0.8;
+        transform: translateY(1px);
+        transition: opacity,transform 150ms ease-in;
+    }
+}
+
+.sec-bad-button {
+    border-radius: 5px;
+    color: red;
+    border: solid 1px red;
+    padding: .2em 1em;
+    margin: 10px;
+    font-weight: 400;
+    font-size: .8em;
+    background-color: white;
+
+    &:hover {
+        opacity: 0.8;
+        transform: translateY(1px);
+        transition: opacity,transform 150ms ease-in;
+    }
+}
+
+.add-button {
+    color: lightseagreen;
+    font-size: .7em;
+}
+
+.remove-button {
+    color: darkred;
+    font-size: .7em;
+}
+
+.up-button {
+    width: .6em;
+    height: .6em;
+    background: black;
+    opacity: .3;
+    /* The points are: centered top, left bottom, right bottom */
+    clip-path: polygon(50% 0, 0 100%, 100% 100%);
+}
+
+.down-button {
+    width: .6em;
+    height: .6em;
+    background: black;
+    opacity: .3;
+    /* The points are: centered top, left bottom, right bottom */
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+
+textarea,input {
+    border: solid 1px #dddd;
+    border-radius: 5px;
+    padding: .5em;
+    font-size: .8em;
+    justify-self: stretch;
+}
+
+textarea {
+    height: 10em;
+}

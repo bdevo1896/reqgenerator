@@ -1,0 +1,33 @@
+{
+  "name": "reqgenerator",
+  "version": "1.0.0",
+  "description": "A simple app to generate a ReadMe.md and PDF for software requirements specification",
+  "main": "index.js",
+  "scripts": {
+    "dev-win": "SET NODE_ENV=dev&& node server.js",
+    "dev": "NODE_ENV=production node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js",
+    "start-win": "SET NODE_ENV=production&& node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@rematch/core": "^1.1.0",
+    "@zeit/next-css": "^1.0.1",
+    "autoprefixer": "^9.6.1",
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "next": "^8.1.0",
+    "next-workbox-webpack-plugin": "^1.1.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.1"
+  },
+  "peerDependencies": {
+    "webpack": "^4.36.1"
+  }
+}

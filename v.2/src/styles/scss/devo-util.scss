@@ -1,0 +1,535 @@
+@namespace svgns url(http://www.w3.org/2000/svg);
+
+/*
+================
+    VARIABLES
+================
+*/
+
+//Spacing
+$space-types: 'm',
+'p';
+$space-vals: .5em,
+1em,
+1.5em,
+2.5em,
+3em;
+$space-sizes: xs,
+s,
+m,
+l,
+xl;
+$section-space: 120px;
+$dir-list:'left',
+'right',
+'top',
+'bottom',
+'all';
+
+/*
+==============
+Z-Level Variables
+==============
+*/
+$shadowOffsetX: 0px;
+$shadowOffsetY: 2px;
+$shadowColor: rgba(0,0,0,0.6);
+$z-lvl-1-borderColor: lightgrey;
+
+/*
+==============
+Font Sizes
+==============
+*/
+
+$base-font-size: 1em;
+
+//Line-Height
+$base-line-height: 1.5em;
+$header-line-height: 1.25em;
+
+/*
+==========================
+Media Queries
+==========================
+*/
+
+// Breakpoints
+$bp-small: 48em; // 768px
+$bp-medium: 64em; // 1024px
+$bp-large: 85.375em; // 1366px
+$bp-xlarge: 120em; // 1920px
+$bp-xxlarge: 160em; // 2560px
+
+// Media Queries
+$mq-small: "(min-width: #{$bp-small})";
+$mq-medium: "(min-width: #{$bp-medium})";
+$mq-large: "(min-width: #{$bp-large})";
+$mq-xlarge: "(min-width: #{$bp-xlarge})";
+$mq-xxlarge: "(min-width: #{$bp-xxlarge})";
+$mq-retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
+
+/* 
+===============
+Displacement Values
+===============
+*/
+
+$displacement-vals: 5px,10px,
+25px,
+50px;
+$displacement-labels:'dxs','ds',
+'dm',
+'dl';
+$displacement-dir: 'up',
+'down',
+'right',
+'left';
+
+/*
+===============
+Time Variables
+===============
+*/
+
+$small-time: 50ms;
+$large-time: 100ms;
+
+/*
+===============
+    MIXINS
+===============
+*/
+
+@mixin CTAButtonAnimation($color-one, $color-two) {
+    background: linear-gradient(270deg, $color-one, $color-two, $color-one);
+    background-size: 600% 600%;
+    -webkit-animation: CTABtnAnimation 6s ease infinite;
+    -moz-animation: CTABtnAnimation 6s ease infinite;
+    animation: CTABtnAnimation 6s ease infinite;
+    @-webkit-keyframes CTABtnAnimation {
+        0% {
+            background-position: 0% 50%
+        }
+        50% {
+            background-position: 100% 51%
+        }
+        100% {
+            background-position: 0% 50%
+        }
+    }
+    @-moz-keyframes CTABtnAnimation {
+        0% {
+            background-position: 0% 50%
+        }
+        50% {
+            background-position: 100% 51%
+        }
+        100% {
+            background-position: 0% 50%
+        }
+    }
+    @keyframes CTABtnAnimation {
+        0% {
+            background-position: 0% 50%
+        }
+        50% {
+            background-position: 100% 51%
+        }
+        100% {
+            background-position: 0% 50%
+        }
+    }
+}
+
+@mixin boxshadow($offset-x, $offset-y, $diffuse-x, $diffuse-y, $color, $opacity) {
+    box-shadow: $offset-x $offset-y $diffuse-x $diffuse-y rgba($color, $opacity);
+    -webkit-box-shadow: $offset-x $offset-y $diffuse-x $diffuse-y rgba($color, $opacity);
+    -moz-box-shadow: $offset-x $offset-y $diffuse-x $diffuse-y rgba($color, $opacity);
+}
+
+@mixin scaleTransformOnHover($scale, $time) {
+    transition: transform $time ease-out;
+    -webkit-transition: -webkit-transform $time ease-out;
+    &:hover {
+        transform: scale($scale);
+        -webkit-transform: scale($scale);
+    }
+}
+
+@mixin bgColorTransformOnHover($newColor, $time) {
+    transition: background-color $time ease-out;
+    &:hover {
+        background-color: $newColor;
+    }
+}
+
+@mixin fadeInOnLoad($time, $delay, $time-func, $count) {
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    animation-name: fadeIn;
+    animation-duration: $time;
+    animation-iteration-count: $count;
+    animation-timing-function: $time-func;
+    animation-delay: $delay;
+}
+
+@mixin slideInOnLoad($time, $delay, $time-func, $count, $dir, $disp) {
+    @keyframes slideIn {
+        0% {
+            @if $dir=='horz' {
+                transform: translateX($disp);
+            }
+            @else {
+                transform: translateY($disp);
+            }
+        }
+        100% {
+            transform: translate(0, 0);
+        }
+    }
+    animation-name: slideIn;
+    animation-duration: $time;
+    animation-iteration-count: $count;
+    animation-timing-function: $time-func;
+    animation-delay: $delay;
+}
+
+@mixin margin-dir($dir, $val) {
+    @if $dir!='all' {
+        margin-#{$dir}: $val;
+    }
+    @else {
+        margin: $val;
+    }
+}
+
+@mixin padding-dir($dir, $val) {
+    @if $dir!='all' {
+        padding-#{$dir}: $val;
+    }
+    @else {
+        padding: $val;
+    }
+}
+
+
+/*
+Object Spacing Control Classes
+*/
+
+@each $type in $space-types {
+    @for $i from 1 through length($space-sizes) {
+        @each $dir in $dir-list {
+            $selector: $type;
+            $selector: selector-append($selector, '-#{nth($space-sizes, $i)}', '-#{$dir}');
+            @if $type=='m' {
+                .#{$selector} {
+                    @include margin-dir($dir, nth($space-vals, $i))
+                }
+            }
+            @else {
+                .#{$selector} {
+                    @include padding-dir($dir, nth($space-vals, $i))
+                }
+            }
+        }
+    }
+}
+
+.push-l {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.push-r {
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.push-t {
+    margin-top: 0;
+    margin-bottom: auto;
+}
+
+.push-b {
+    margin-bottom: 0;
+    margin-top: auto;
+}
+
+.float-l {
+    float: left;
+}
+
+.float-r {
+    float: right;
+}
+
+
+/*
+Depth Control Classes Z-Level
+Set as Ex: dp1 (through to 10)
+*/
+
+@for $i from 1 through 10 {
+    $selector: 'dp#{$i}';
+        .#{$selector} {
+            @include boxshadow($shadowOffsetX, $shadowOffsetY, 1px * $i, 0, $shadowColor, .5 - (.032 * $i));
+            z-index: $i;
+        }
+}
+/*
+    Motion Animation with Interaction
+*/
+
+//Scale on hover
+@for $i from 1 through 5 {
+    $selector: 'scaleOnHover-#{$i}';
+    .#{$selector} {
+        @include scaleTransformOnHover(1.025, $i * $small-time);
+    }
+}
+
+@mixin translate($dir, $disp) {
+    @if $dir=='up' {
+        transform: translate(0, ($disp * -1));
+    }
+    @else if $dir=='down' {
+        transform: translate(0, $disp);
+    }
+    @else if $dir=='left' {
+        transform: translate(($disp * -1), 0);
+    }
+    @else {
+        transform: translate($disp, 0);
+    }
+}
+
+/*
+    Translate on hover
+    Set as Ex: transOnHover-up-ds-1 
+*/
+@each $dir in $displacement-dir {
+    @for $j from 1 through length($displacement-labels) {
+        @for $i from 1 through 5 {
+            $selector: 'transOnHover-#{$dir}-#{nth($displacement-labels,$j)}-#{$i}';
+            .#{$selector} {
+                transition: all ($i * $small-time) ease-out;
+                &:hover {
+                    @include translate($dir, nth($displacement-vals, $j));
+                }
+            }
+        }
+    }
+}
+
+/*
+    Depth change on hover
+    @i will be the depth level
+    @j controls the time in ms in increments of 50ms
+    Set as Ex: dpOnHover-2-1 
+*/
+@for $i from 2 through 10 {
+    @for $j from 1 through 5 {
+        $selector: 'dpOnHover-#{$i}-#{$j}';
+        .#{$selector} {
+            transition: box-shadow ($j * $small-time) ease-out;
+            &:hover {
+                @include boxshadow($shadowOffsetX, $shadowOffsetY, 5px * $i, 0px, $shadowColor, 1 - (.75 * $i));
+                z-index: $i;
+            }
+        }
+    }
+}
+
+//reset
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    font-size: $base-font-size;
+    line-height: $base-line-height;
+
+    @media #{$mq-medium} {
+        font-size: $base-font-size*1;
+        line-height: $base-line-height*1.1;
+      }
+    
+      @media #{$mq-large} {
+        font-size: $base-font-size*1.2;
+      }
+    
+      @media #{$mq-xlarge} {
+        font-size: $base-font-size*1.3;
+      }
+    
+      @media #{$mq-xxlarge} {
+        font-size: $base-font-size*1.4;
+      }
+}
+
+h1,h2,h3,h4,h5,h6 {
+    line-height: $header-line-height;
+}
+
+div,a,p,small {
+    line-height: $base-line-height;
+}
+
+a {
+    font-size: .9em;
+    text-decoration: none;
+    color: inherit;
+}
+
+small {
+    font-size: .75em;
+}
+
+button {
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+}
+
+ul {
+    list-style: none;
+}
+
+textarea,input {
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.hbox {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.vbox {
+    display: flex;
+    flex-flow: column wrap;
+    flex-shrink: 0;
+}
+
+.section-m-t {
+    margin-top: $section-space;
+}
+
+.section-m-b {
+    margin-bottom: $section-space;
+}
+
+.section-m-both {
+    margin-top: $section-space;
+    margin-bottom: $section-space;
+}
+
+.desktop {
+    display: none;
+}
+
+.t-l {
+    text-align: left;
+}
+
+.t-c {
+    text-align: center;
+}
+
+.t-r {
+    text-align: right;
+}
+
+.center {
+    margin: auto;
+}
+
+.curved-border {
+    border-radius: 5px;
+}
+
+.circular-border {
+    border-radius: 50%;
+}
+
+.max-width {
+    width: 100%;
+}
+
+.max-height {
+    height: 100%;
+}
+
+.max-screenWidth {
+    width: 100vw;
+}
+
+.max-screenHeight {
+    height: 100vh;
+}
+
+.contain {
+    object-fit: contain;
+}
+
+.cover {
+    object-fit: cover;
+}
+
+.fill {
+    object-fit: fill;
+}
+
+.align-items-c {
+    align-items: center;
+}
+
+.justify-items-c {
+    justify-content: center;
+}
+
+@media(min-width: 768px) {
+    body {
+        grid-template-columns: minmax(1fr, 250px) 2fr minmax(1fr, 250px);
+    }
+    .first {
+        order: -1;
+    }
+}
+
+@media(min-width: 900px) {
+    .mobile {
+        display: none;
+    }
+    .desktop {
+        display: block;
+    }
+}
