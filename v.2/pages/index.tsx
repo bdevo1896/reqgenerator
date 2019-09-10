@@ -1,7 +1,7 @@
-import SideNavigation from '../src/ui/components/navigation/SideNavigation';
+import SideNavigation from '../src/react/components/navigation/SideNavigation';
 import {Fragment} from 'react';
-import UseCaseOrganizerView from '../src/ui/components/visual/UseCaseOrganizerView';
-import ButtonDrawer from '../src/ui/containers/ButtonDrawer';
+import UseCaseOrganizerView from '../src/react/components/visual/UseCaseOrganizerView';
+import ButtonDrawer from '../src/react/containers/ButtonDrawer';
 
 const Home  = () => (
     <Fragment>
